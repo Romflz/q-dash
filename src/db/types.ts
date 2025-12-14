@@ -15,3 +15,8 @@ export type Board = {
   columns: Column[]
   tasks: Task[]
 }
+
+export type BoardSelect = {
+  _id: string
+  title: string
+}
