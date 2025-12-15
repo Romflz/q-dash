@@ -1,12 +1,19 @@
-import { type BoardSelect } from '@/db'
-import { useState } from 'react'
+import { type BoardSelect as BoardSelectType } from '@/db'
 
-function BoardSelect({ boards }: { boards: BoardSelect[] }) {
-  // TODO: UseState usage
+type BoardSelectProps = {
+  boards: BoardSelectType[]
+  onChange: (boardId: string) => void
+}
+
+function BoardSelect({ boards, onChange }: BoardSelectProps) {
   return (
     <div>
-      <select name="boards" id="boards">
-        {boards.map((board) => (
+      <select
+        name="boards"
+        id="boards"
+        onChange={e => onChange(e.target.value)}
+      >
+        {boards.map(board => (
           <option key={board._id} value={board._id}>
             {board.title}
           </option>
