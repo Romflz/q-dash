@@ -2,6 +2,7 @@ export type Task = {
   _id: string
   title: string
   columnId: string
+  boardId: string
 }
 
 export type Column = {
@@ -13,7 +14,6 @@ export type Board = {
   _id: string
   title: string
   columns: Column[]
-  tasks: Task[]
 }
 
 export type BoardSelect = {
