@@ -4,6 +4,8 @@ import type { Board, Column, Task } from './db'
 type Store = {
   boards: Board[]
   tasks: Task[]
+  currentActiveBoardId: string
+  changeCurrentActiveBoard: (boardId: string) => void
   addTask: (task: Task) => void
   deleteTask: (taskId: string) => void
   moveTask: (taskId: string, newColumnId: string) => void
@@ -108,41 +110,42 @@ const initialTasks: Task[] = [
   },
 ]
 
-export const useStore = create<Store>((set) => ({
+export const useStore = create<Store>(set => ({
   boards: initialBoards,
   tasks: initialTasks,
-
-  addTask: (task) =>
-    set((state) => ({
+  currentActiveBoardId: '',
+  changeCurrentActiveBoard: boardId => set({ currentActiveBoardId: boardId }),
+  addTask: task =>
+    set(state => ({
       tasks: [...state.tasks, task],
     })),
 
-  deleteTask: (taskId) =>
-    set((state) => ({
-      tasks: state.tasks.filter((t) => t._id !== taskId),
+  deleteTask: taskId =>
+    set(state => ({
+      tasks: state.tasks.filter(t => t._id !== taskId),
     })),
 
   moveTask: (taskId, newColumnId) =>
-    set((state) => ({
-      tasks: state.tasks.map((t) =>
+    set(state => ({
+      tasks: state.tasks.map(t =>
         t._id === taskId ? { ...t, columnId: newColumnId } : t
       ),
     })),
 
   addColumn: (boardId, column) =>
-    set((state) => ({
-      boards: state.boards.map((b) =>
+    set(state => ({
+      boards: state.boards.map(b =>
         b._id === boardId ? { ...b, columns: [...b.columns, column] } : b
       ),
     })),
 
   deleteColumn: (boardId, columnId) =>
-    set((state) => ({
-      boards: state.boards.map((b) =>
+    set(state => ({
+      boards: state.boards.map(b =>
         b._id === boardId
-          ? { ...b, columns: b.columns.filter((c) => c._id !== columnId) }
+          ? { ...b, columns: b.columns.filter(c => c._id !== columnId) }
           : b
       ),
-      tasks: state.tasks.filter((t) => t.columnId !== columnId),
+      tasks: state.tasks.filter(t => t.columnId !== columnId),
     })),
 }))

@@ -1,7 +1,11 @@
-import BoardSelect from "../BoardSelect";
+import BoardSelect from '../BoardSelect'
 
 function Header() {
-  return ( <h1>Header</h1> );
+  return (
+    <div>
+      <BoardSelect />
+    </div>
+  )
 }
 
-export default Header;
+export default Header
